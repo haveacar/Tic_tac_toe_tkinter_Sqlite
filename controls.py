@@ -6,17 +6,35 @@ import tkinter.messagebox
 import sqlite3
 from constans import *
 
-tic_tac_root = Tk()
-
 
 class Board:
+
+    tic_tac_root = Tk()
+
     # Display set up
     tic_tac_root.title("Tic Tac Toe")
     tic_tac_root.geometry("800x700+10+100")
     tic_tac_root.config(bg='#80FF80')
     tic_tac_root.resizable(False, False)
 
+    # frames
+    game_play_frame = Frame()
+    game_play_frame.grid(column=0, row=2, sticky="w")
+
+    top_frame = Frame(bg='#80FF80')
+    top_frame.grid(column=0, row=0, columnspan=2, sticky="w")
+
+    stat_frame = Frame(bg='#80FF80')
+    stat_frame.grid(column=1, row=1, sticky="s")
+
+    # top buttons and label
+    name_l = Label(top_frame, text="Tic Tac Toe", font=('Comic Sans MS', 25, 'bold'), bg='#80FF80', fg='#363535')
+    name_l.grid(column=0, row=0)
+    name_n = Label(top_frame, text="©Daniel Govnir", font=('Comic Sans MS', 20), bg='#80FF80', fg='white')
+    name_n.grid(column=4, row=0)
+
     def __init__(self):
+
 
         # win counting statistic
         self.winner_counting = {
@@ -25,29 +43,15 @@ class Board:
             "computer": 0
         }
 
-        # frames
-        game_play_frame = Frame()
-        game_play_frame.grid(column=0, row=2, sticky="w")
 
-        top_frame = Frame(bg='#80FF80')
-        top_frame.grid(column=0, row=0, columnspan=2, sticky="w")
 
-        stat_frame = Frame(bg='#80FF80')
-        stat_frame.grid(column=1, row=1, sticky="s")
-
-        # top buttons and label
-        name_l = Label(top_frame, text="Tic Tac Toe", font=('Comic Sans MS', 25, 'bold'), bg='#80FF80', fg='#363535')
-        name_l.grid(column=0, row=0)
-        name_n = Label(top_frame, text="©Daniel Govnir", font=('Comic Sans MS', 20), bg='#80FF80', fg='white')
-        name_n.grid(column=4, row=0)
-
-        self.new_game = Button(top_frame, text="New Game", command=self.push_new,
+        self.new_game = Button(Board.top_frame, text="New Game", command=self.push_new,
                                font=('Comic Sans MS', 20))
         self.new_game.grid(row=0, column=1, padx=10)
-        self.load_btn = Button(top_frame, text="Load Game", command=self.push_load,
+        self.load_btn = Button(Board.top_frame, text="Load Game", command=self.push_load,
                                font=('Comic Sans MS', 20))
         self.load_btn.grid(row=0, column=2, padx=10)
-        self.save_btn = Button(top_frame, text="Save Game", command=self.push_save,
+        self.save_btn = Button(Board.top_frame, text="Save Game", command=self.push_save,
                                font=('Comic Sans MS', 20))
         self.save_btn.grid(row=0, column=3, padx=10)
 
@@ -55,23 +59,23 @@ class Board:
         self.win_comp = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
 
         # buttons
-        self.btn_1 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_1, "X", 0),
+        self.btn_1 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_1, "X", 0),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_2 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_2, "X", 1),
+        self.btn_2 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_2, "X", 1),
                             font=('Comic Sans MS', 35, 'bold'), disabledforeground="white")
-        self.btn_3 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_3, "X", 2),
+        self.btn_3 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_3, "X", 2),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_4 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_4, "X", 3),
+        self.btn_4 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_4, "X", 3),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_5 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_5, "X", 4),
+        self.btn_5 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_5, "X", 4),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_6 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_6, "X", 5),
+        self.btn_6 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_6, "X", 5),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_7 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_7, "X", 6),
+        self.btn_7 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_7, "X", 6),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_8 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_8, "X", 7),
+        self.btn_8 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_8, "X", 7),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
-        self.btn_9 = Button(game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_9, "X", 8),
+        self.btn_9 = Button(Board.game_play_frame, text=" ", command=lambda: self.push_bt(self.btn_9, "X", 8),
                             font=('Comic Sans MS', 35, 'bold',), disabledforeground="white")
 
         # list of buttons
@@ -79,17 +83,17 @@ class Board:
                              self.btn_8, self.btn_9]
 
         # labels
-        self.label3 = Label(stat_frame, text=f"{self.winner_counting.get('name')} 0",
+        self.label3 = Label(Board.stat_frame, text=f"{self.winner_counting.get('name')} 0",
                             font=('Comic Sans MS', 15, 'bold'), bg='#80FF80', fg='#363535')
 
-        self.label4 = Label(stat_frame, text="COMPUTER O", font=('Comic Sans MS', 15, 'bold'), bg='#80FF80',
+        self.label4 = Label(Board.stat_frame, text="COMPUTER O", font=('Comic Sans MS', 15, 'bold'), bg='#80FF80',
                             fg='#363535')
 
         # new game
-        self.name_input = Entry(top_frame, relief=FLAT)
-        self.label_input = Label(top_frame, text="Your Name", font=('Comic Sans MS', 15, 'bold'), bg='#80FF80',
+        self.name_input = Entry(Board.top_frame, relief=FLAT)
+        self.label_input = Label(Board.top_frame, text="Your Name", font=('Comic Sans MS', 15, 'bold'), bg='#80FF80',
                                  fg='#363535')
-        self.btn_new = Button(top_frame, text="Enter", command=self.push_new_name, padx=4, pady=4,
+        self.btn_new = Button(Board.top_frame, text="Enter", command=self.push_new_name, padx=4, pady=4,
                               font=('Comic Sans MS', 15))
 
         # computer choice list
@@ -98,8 +102,8 @@ class Board:
         self.game_turn_list = [None for x in range(9)]
 
         # load menu
-        self.combobox = ttk.Combobox(top_frame, values="none")
-        self.btn_load_list = Button(top_frame, text="Select", command=self.push_select_load, padx=4, pady=4,
+        self.combobox = ttk.Combobox(Board.top_frame, values="none")
+        self.btn_load_list = Button(Board.top_frame, text="Select", command=self.push_select_load, padx=4, pady=4,
                                     font=('Comic Sans MS', 15))
 
     def display_field(self):
@@ -138,6 +142,7 @@ class Board:
         """
         if len(self.computer_turn_list) == 0:
             self.restore()
+            # display no winner
             tkinter.messagebox.showinfo("Tic Tac Toe", "Standoff\nGame Over!")
 
         computer_choice = random.choice(self.computer_turn_list)
@@ -161,6 +166,7 @@ class Board:
                 self.winner_counting["user"] = count + 1
 
                 self.label3.config(text=f"{self.winner_counting.get('name')} X  {self.winner_counting.get('user')}")
+                # display win message user
                 tkinter.messagebox.showinfo("Tic Tac Toe", "Congratulation\nYou Win!")
 
                 return True
@@ -170,6 +176,7 @@ class Board:
                 count = self.winner_counting.get("computer")
                 self.winner_counting["computer"] = count + 1
                 self.label4.config(text=f"Computer O    {self.winner_counting.get('computer')}")
+                # display win message computer
                 tkinter.messagebox.showinfo("Tic Tac Toe", "Computer Win\nGame Over!")
 
                 return True
@@ -245,12 +252,15 @@ class Board:
         self.btn_new.destroy()
 
     def push_load(self):
+        #sql answer
         sql_answer = self.sql_request(SELECT_NAMES, query_result=True)
 
         # display combobox
         self.combobox.config(values=sql_answer)
         self.combobox.grid(column=2, row=2)
         self.btn_load_list.grid(column=2, row=3)
+
+
 
     def push_select_load(self):
         """
@@ -274,11 +284,14 @@ class Board:
         self.label3.config(text=f'{self.winner_counting.get("name")} X {self.winner_counting.get("user")}')
         self.label4.config(text=f"Computer O  {self.winner_counting.get('computer')}")
 
+        # remove combobox
         self.combobox.grid_remove()
         self.combobox.grid_remove()
         self.btn_load_list.grid_remove()
 
         self.display_field()  # display game field
+
+
 
     def push_save(self):
         """
@@ -289,5 +302,6 @@ class Board:
         INSERT_SQL = f"""INSERT OR REPLACE INTO "game stats" ("name","user","computer") VALUES ("$name$",{self.winner_counting.get("user")}, {self.winner_counting.get("computer")});"""
         INSERT_SQL = INSERT_SQL.replace('$name$', f'{self.winner_counting.get("name")}')
         self.sql_request(INSERT_SQL)
+        tkinter.messagebox.showinfo("Tic Tac Toe", "Saved")
 
         pass
